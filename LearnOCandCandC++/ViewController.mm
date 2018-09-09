@@ -10,7 +10,7 @@
 #import "LearnC.h"
 #import "LearnC++.hpp"
 #import "LearnOCinCPP.h"
-
+#import "JsEngine.hpp"
 @interface ViewController ()
 
 @end
@@ -18,6 +18,7 @@
 @implementation ViewController
 {
     cppObject* object;
+    JsEngine* engine;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -25,7 +26,7 @@
     learnCplus(1, 2); //在OC中使用c
     
     learnCplusplus(1, 2); //在OC中用C++编译的C
-    
+    engine = new JsEngine();
     //在OC中使用C++的类
     object = new cppObject();
     NSString* str = @"GAO高级\n";
@@ -33,7 +34,8 @@
     object->exampleMethod(cpp_str);
     delete object;
     object = NULL; //记得删除
-    
+    delete engine;
+    engine = nullptr;
     
     //在OC使用的C++类中 使用OC
     LY::OCinCPP* cpp = new LY::OCinCPP();
