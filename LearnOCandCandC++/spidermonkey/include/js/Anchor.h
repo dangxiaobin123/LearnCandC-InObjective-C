@@ -1,17 +1,23 @@
-/* -*- Mode: C++; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 4 -*-
- * vim: set ts=8 sts=4 et sw=4 tw=99:
+/* -*- Mode: C++; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*-
+ * vim: set ts=4 sw=4 et tw=99 ft=cpp:
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /* JS::Anchor implementation. */
 
-#ifndef js_Anchor_h
-#define js_Anchor_h
+#ifndef js_Anchor_h___
+#define js_Anchor_h___
 
 #include "mozilla/Attributes.h"
 
-#include "js/TypeDecls.h"
+class JSFunction;
+class JSObject;
+class JSScript;
+class JSString;
+
+namespace JS { class Value; }
 
 namespace JS {
 
@@ -93,31 +99,14 @@ class Anchor : AnchorPermitted<T>
     Anchor() { }
     explicit Anchor(T t) { hold = t; }
     inline ~Anchor();
+    T &get() { return hold; }
+    const T &get() const { return hold; }
+    void set(const T &t) { hold = t; }
+    void operator=(const T &t) { hold = t; }
+    void clear() { hold = 0; }
 
   private:
     T hold;
-
-    /*
-     * Rooting analysis considers use of operator= to be a use of an anchor.
-     * For simplicity, Anchor is treated as if it contained a GC thing, from
-     * construction. Thus if we had
-     *
-     *   void operator=(const T &t) { hold = t; }
-     *
-     * and this code
-     *
-     *   JS::Anchor<JSString*> anchor;
-     *   stuff that could GC, producing |str|;
-     *   anchor = str;
-     *
-     * the last line would be seen as a hazard, because the final = would "use"
-     * |anchor| that is a GC thing -- which could have been moved around by the
-     * GC. The workaround is to structure your code so that JS::Anchor is
-     * always constructed, living for however long the corresponding value must
-     * live.
-     */
-    void operator=(const T &t) MOZ_DELETE;
-
     Anchor(const Anchor &other) MOZ_DELETE;
     void operator=(const Anchor &other) MOZ_DELETE;
 };
@@ -171,4 +160,4 @@ inline Anchor<T>::~Anchor()
 
 } // namespace JS
 
-#endif /* js_Anchor_h */
+#endif /* js_Anchor_h___ */

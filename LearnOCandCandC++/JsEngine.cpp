@@ -15,16 +15,16 @@ using namespace JS;
 /* The class of the global object. */
 static JSClass globalClass = {
     "global",
-    JSCLASS_GLOBAL_FLAGS,
+    JSCLASS_NEW_RESOLVE | JSCLASS_GLOBAL_FLAGS,
     JS_PropertyStub,
-    JS_DeletePropertyStub,
+    JS_PropertyStub,
     JS_PropertyStub,
     JS_StrictPropertyStub,
     JS_EnumerateStub,
     JS_ResolveStub,
     JS_ConvertStub,
-    nullptr, nullptr, nullptr, nullptr,
-    JS_GlobalObjectTraceHook
+    nullptr,
+    JSCLASS_NO_OPTIONAL_MEMBERS
 };
 
 
@@ -42,7 +42,7 @@ int run(JSContext *cx) {
     // Create the global object and a new compartment.
     RootedObject global(cx);
     global = JS_NewGlobalObject(cx, &globalClass, nullptr,
-                                JS::DontFireOnNewGlobalHook);
+                                JS::FreshZone);
     if (!global)
     return 1;
     
@@ -66,7 +66,7 @@ int run(JSContext *cx) {
 
 JsEngine::JsEngine() {
     /* Create a JS runtime. */
-    if (!JS_Init())
+    if (!JS_Init(0))
     return ;
     rt = JS_NewRuntime(8L * 1024L * 1024L);
     if (rt == NULL)

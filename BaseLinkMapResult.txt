@@ -1,0 +1,19 @@
+libjs_static.a                                     			2.17M
+AppDelegate.o                                      			0.01M
+jswrapper_sm.o                                     			0.01M
+jswrapperobject_sm.o                               			0.01M
+jswrapperclass_sm.o                                			0.00M
+ViewController.o                                   			0.00M
+libSystem.tbd                                      			0.00M
+jswrapperdata.o                                    			0.00M
+LearnC++.o                                         			0.00M
+libc++.tbd                                         			0.00M
+linker synthesized                                 			0.00M
+LearnOCinCPP.o                                     			0.00M
+libobjc.tbd                                        			0.00M
+main.o                                             			0.00M
+libz.1.tbd                                         			0.00M
+LearnC.o                                           			0.00M
+Foundation.tbd                                     			0.00M
+UIKit.tbd                                          			0.00M
+总体积:                                           2.20M

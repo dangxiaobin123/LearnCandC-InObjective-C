@@ -1,1 +1,0 @@
-/Users/dangxiaobin/Desktop/Spidermonkey/mfbt/UniquePtr.h
